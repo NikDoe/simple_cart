@@ -1,7 +1,12 @@
-import Navbar from "./Navbar";
-import CartContainer from "./CartContainer";
+import Navbar from './Navbar';
+import CartContainer from './CartContainer';
+import { useAppContext } from './hooks';
 
 function App() {
+	const { name } = useAppContext();
+
+	console.log(name);
+
 	return (
 		<main>
 			<Navbar />

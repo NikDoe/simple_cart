@@ -1,9 +1,25 @@
+import { useReducer } from 'react';
 import CartItem from './CartItem';
 import cartItems from './data';
-const CartContainer = () => {
-	const cartArray = [...cartItems];
 
-	if (cartArray.length === 0) {
+import { CartState } from './types';
+
+const initialState: CartState = {
+	items: cartItems
+};
+
+const reducer = (state: CartState, action): CartState => {
+	return state;
+};
+
+const CartContainer = () => {
+	const [state, dispatch] = useReducer(reducer, initialState);
+
+	const handleClearCart = () => {
+		console.log('очистить корзину');
+	};
+
+	if (state.items.length === 0) {
 		return (
 			<section className='cart'>
 				{/* cart header */}
@@ -22,7 +38,7 @@ const CartContainer = () => {
 			</header>
 			{/* cart items */}
 			<div>
-				{cartArray.map((cartItem) => {
+				{state.items.map((cartItem) => {
 					return <CartItem key={cartItem.id} {...cartItem} />;
 				})}
 			</div>
@@ -36,7 +52,7 @@ const CartContainer = () => {
 				</div>
 				<button
 					className='btn btn-hipster'
-					onClick={() => console.log('clear cart')}
+					onClick={handleClearCart}
 				>
 					clear cart
 				</button>
