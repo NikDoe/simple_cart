@@ -1,19 +1,29 @@
-import { ReactNode, createContext } from 'react';
-import { AppProviderState } from './types';
-
-export const AppContext = createContext<AppProviderState | undefined>(
-	undefined
-);
+import { ReactNode, createContext, useReducer } from 'react';
+import { CartState, TCartItem } from './types';
+import cartItems from './data';
+import reducer from './reducer';
 
 type Props = {
 	children: ReactNode;
 };
 
+export const AppContext = createContext<CartState | undefined>(
+	undefined
+);
+
+const itemsPairs:[string, TCartItem][] = cartItems.map(item => [item.id, item]);
+
+const items = new Map(itemsPairs);
+
+const initialState: CartState = {
+	items,
+};
+
 const AppContextProvider = ({ children }: Props) => {
-	const name = 'NikDoe';
+	const [state, dispatch] = useReducer(reducer, initialState);
 
 	return (
-		<AppContext.Provider value={{ name }}>
+		<AppContext.Provider value={{ ...state }}>
 			{children}
 		</AppContext.Provider>
 	);

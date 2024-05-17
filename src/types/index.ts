@@ -7,9 +7,5 @@ export type TCartItem = {
 }
 
 export type CartState = {
-	items: TCartItem[]
+	items: Map<string, TCartItem>
 }
-
-export type AppProviderState = {
-	name: string;
-};
