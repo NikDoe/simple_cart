@@ -7,7 +7,8 @@ export type TCartItem = {
 }
 
 export type CartState = {
-	items: Map<string, TCartItem>,
+	loading: boolean;
+	items: Map<string, TCartItem>;
 	clearCart: () => void;
 	removeItem: (id: string) => void;
 	increaseAmount: (id: string) => void;
@@ -35,4 +36,19 @@ type DecreaseAction = {
 	payload: { id: string },
 }
 
-export type TAction = ClearCartAction | RemoveItemAction | IncreaseAction | DecreaseAction;
+type LoadingAction = {
+	type: 'LOADING',
+}
+
+type FetchCart = {
+	type: 'FETCH_CART',
+	payload: { items: TCartItem[] },
+}
+
+export type TAction = 
+	ClearCartAction | 
+	RemoveItemAction | 
+	IncreaseAction | 
+	DecreaseAction | 
+	LoadingAction |
+	FetchCart;

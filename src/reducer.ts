@@ -1,6 +1,16 @@
 import { CartState, TAction, TCartItem } from './types';
 
 const reducer = (state: CartState, action: TAction): CartState => {
+	if(action.type === 'LOADING') {		
+		return { ...state, loading: true };
+	}
+
+	if(action.type === 'FETCH_CART') {
+		const newItems:[string, TCartItem][] = action.payload.items.map(item => [item.id, item]);
+
+		return { ...state, loading: false, items: new Map(newItems) };
+	}
+	
 	if(action.type === 'CLEAR_CART') {
 		return { ...state, items: new Map() };
 	}

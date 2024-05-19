@@ -1,8 +1,8 @@
-import { ReactNode, createContext, useReducer } from 'react';
-import { CartState, TCartItem } from './types';
-import cartItems from './data';
+import { ReactNode, createContext, useEffect, useReducer } from 'react';
+import { CartState } from './types';
 import reducer from './reducer';
 import { getTotals } from './utils';
+import cartItems from './data';
 
 type Props = {
 	children: ReactNode;
@@ -12,12 +12,9 @@ export const AppContext = createContext<CartState | undefined>(
 	undefined
 );
 
-const itemsPairs:[string, TCartItem][] = cartItems.map(item => [item.id, item]);
-
-const items = new Map(itemsPairs);
-
 const initialState: CartState = {
-	items,
+	loading: false,
+	items: new Map(),
 	clearCart: () => {},
 	removeItem: () => {},
 	increaseAmount: () => {},
@@ -46,6 +43,21 @@ const AppContextProvider = ({ children }: Props) => {
 	const decreaseAmount = (id:string) => {
 		dispatch({ type: 'DECREASE', payload: { id } });
 	};
+
+	const fetchData = async () => {
+		dispatch({ type: 'LOADING' });
+
+		//EXAMPLE LOADING DATA FROM API
+		// const response = await fetch(URL);
+		// const data = await response.json();
+		// dispatch({ type: 'FETCH_CART', payload: { items: data } });
+
+		dispatch({ type: 'FETCH_CART', payload: { items: cartItems } });
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, []);
 
 	return (
 		<AppContext.Provider value={{ 
