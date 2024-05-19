@@ -2,11 +2,7 @@ import CartItem from './CartItem';
 import { useAppContext } from './hooks';
 
 const CartContainer = () => {
-	const { items } = useAppContext();
-
-	const handleClearCart = () => {
-		console.log('очистить корзину');
-	};
+	const { items, clearCart } = useAppContext();
 
 	if (items.size === 0) {
 		return (
@@ -29,7 +25,7 @@ const CartContainer = () => {
 			{/* cart items */}
 			<div>
 				{Array.from(items.values()).map((cartItem) => {
-					return <CartItem key={cartItem.id} {...cartItem} />;
+					return <CartItem key={cartItem.id} cartItem={cartItem} />;
 				})}
 			</div>
 			{/* cart footer */}
@@ -42,7 +38,7 @@ const CartContainer = () => {
 				</div>
 				<button
 					className='btn btn-hipster'
-					onClick={handleClearCart}
+					onClick={clearCart}
 				>
 					clear cart
 				</button>

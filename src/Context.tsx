@@ -17,13 +17,33 @@ const items = new Map(itemsPairs);
 
 const initialState: CartState = {
 	items,
+	clearCart: () => {},
+	removeItem: () => {},
+	increaseAmount: () => {},
+	decreaseAmount: () => {},
 };
 
 const AppContextProvider = ({ children }: Props) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
+	const clearCart = () => {
+		dispatch({ type: 'CLEAR_CART' });
+	};
+
+	const removeItem = (id: string) => {
+		dispatch({ type: 'REMOVE_ITEM', payload: { id } });
+	};
+
+	const increaseAmount = (id:string) => {
+		dispatch({ type: 'INCREASE', payload: { id } });
+	};
+
+	const decreaseAmount = (id:string) => {
+		dispatch({ type: 'DECREASE', payload: { id } });
+	};
+
 	return (
-		<AppContext.Provider value={{ ...state }}>
+		<AppContext.Provider value={{ ...state, clearCart, removeItem, increaseAmount, decreaseAmount  }}>
 			{children}
 		</AppContext.Provider>
 	);
