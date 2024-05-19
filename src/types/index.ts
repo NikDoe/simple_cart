@@ -12,6 +12,8 @@ export type CartState = {
 	removeItem: (id: string) => void;
 	increaseAmount: (id: string) => void;
 	decreaseAmount: (id: string) => void;
+	totalAmount: number;
+	totalPrice: number;
 }
 
 type ClearCartAction = {

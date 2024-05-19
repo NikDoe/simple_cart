@@ -2,7 +2,7 @@ import CartItem from './CartItem';
 import { useAppContext } from './hooks';
 
 const CartContainer = () => {
-	const { items, clearCart } = useAppContext();
+	const { items, clearCart, totalPrice } = useAppContext();
 
 	if (items.size === 0) {
 		return (
@@ -33,7 +33,7 @@ const CartContainer = () => {
 				<hr />
 				<div>
 					<h5 className='cart-total'>
-						total <span>$10</span>
+						total <span>${totalPrice.toFixed(2)}</span>
 					</h5>
 				</div>
 				<button

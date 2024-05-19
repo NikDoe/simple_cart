@@ -2,6 +2,7 @@ import { ReactNode, createContext, useReducer } from 'react';
 import { CartState, TCartItem } from './types';
 import cartItems from './data';
 import reducer from './reducer';
+import { getTotals } from './utils';
 
 type Props = {
 	children: ReactNode;
@@ -21,10 +22,14 @@ const initialState: CartState = {
 	removeItem: () => {},
 	increaseAmount: () => {},
 	decreaseAmount: () => {},
+	totalAmount: 0,
+	totalPrice: 0,
 };
 
 const AppContextProvider = ({ children }: Props) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
+
+	const { totalAmount, totalPrice } = getTotals(state.items);
 
 	const clearCart = () => {
 		dispatch({ type: 'CLEAR_CART' });
@@ -43,7 +48,15 @@ const AppContextProvider = ({ children }: Props) => {
 	};
 
 	return (
-		<AppContext.Provider value={{ ...state, clearCart, removeItem, increaseAmount, decreaseAmount  }}>
+		<AppContext.Provider value={{ 
+			...state, 
+			clearCart, 
+			removeItem, 
+			increaseAmount, 
+			decreaseAmount, 
+			totalAmount, 
+			totalPrice  
+		}}>
 			{children}
 		</AppContext.Provider>
 	);
